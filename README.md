@@ -12,12 +12,11 @@ Setup
 
 1) Add the ninja-rythm dependency to your pom.xml:
 
-   <dependency>
-       <groupId>org.ninjaframework</groupId>
-       <artifactId>ninja-rythm-module</artifactId>
-       <version>0.0.1</version>
+    <dependency>
+        <groupId>org.ninjaframework</groupId>
+        <artifactId>ninja-rythm-module</artifactId>
+        <version>0.0.1</version>
     </dependency>
-
 
 2) Install the module in your conf.Module:
 
@@ -28,5 +27,5 @@ Setup
     
 3) All set. Start writing template in 'views' folder of your application.
 
--TODO - Usage in detail.
+***TODO - Usage in detail.***
 
