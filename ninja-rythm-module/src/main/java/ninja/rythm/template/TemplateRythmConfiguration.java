@@ -34,6 +34,7 @@ import org.rythmengine.logger.ILogger;
 import org.rythmengine.template.ITemplate;
 import org.slf4j.Logger;
 
+import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -56,9 +57,9 @@ public class TemplateRythmConfiguration {
 
     @Inject
     public TemplateRythmConfiguration(Messages messages,
-                              Logger ninjaLogger,
-                              TemplateEngineManager templateEngineManager,
-                              NinjaProperties ninjaProperties) {
+                                      Logger ninjaLogger,
+                                      TemplateEngineManager templateEngineManager,
+                                      NinjaProperties ninjaProperties) {
 
         this.messages = messages;
         this.logger = ninjaLogger;
@@ -82,28 +83,44 @@ public class TemplateRythmConfiguration {
             }
         });
 
-        String templateDir = System.getProperty("user.dir") + File.separator
-                + "src" + File.separator + "main" + File.separator + "java"
-                + File.separator + "views";
+        String classLocation = TemplateRythmConfiguration.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 
-        properties.put("rythm.home.template", new File(templateDir));
-        logger.debug("rythm template root set to: {}",
-                properties.get("rythm.home.template"));
-
-        boolean gae = false;// TODO get GAE status.
-        if (!gae) {
-            File tmpDir = new File(System.getProperty("user.dir")
-                    + File.separator + "target" + File.separator + "tmp",
-                    "rythm");
-            tmpDir.mkdirs();
-            properties.put("rythm.home.tmp", tmpDir);
-            logger.debug("rythm tmp dir set to {}",
-                    properties.get("rythm.home.tmp"));
-        } else {
-            logger.warn("GAE enabled");
+        Optional<String> templateDir, tmpDir = Optional.absent();
+        // TODO revisit here once issue
+        // https://github.com/greenlaw110/Rythm/issues/173 solved.
+        if (classLocation.contains("WEB-INF") && classLocation.contains("ninja-rythm-module") /* dirty hack until then */) {
+            String webInf = classLocation.substring(0, classLocation.indexOf("WEB-INF") + 7) + File.separator;
+            templateDir = Optional.of(webInf + "classes" + File.separator + "views");
             properties.put("rythm.engine.file_write", false);
+            properties.put("rythm.engine.mode", Rythm.Mode.prod);
+            logger.warn("Rythm seems to be running in a servlet container, set the mode to prod.");
+        } else {
+            String tmp = System.getProperty("user.dir") + File.separator;
+            templateDir = Optional.of(tmp + "src" + File.separator + "main" + File.separator + "java" + File.separator + "views");
+            tmpDir = Optional.of(tmp + "target" + File.separator + "tmp" + File.separator + "__rythm");
         }
 
+        if (templateDir.isPresent()) {
+            properties.put("rythm.home.template", new File(templateDir.get()));
+            logger.info("rythm template root set to: {}", properties.get("rythm.home.template"));
+        } else {
+            logger.error("Unable to set rythm.home.template");
+        }
+        
+        if(isProd || (ninjaProperties.getBooleanWithDefault("rythm.gae", false))){
+            properties.put("rythm.engine.file_write", false);
+            logger.info("In Prod/GAE mode, Rythm engine writing to file system disabled.");
+        }else if(tmpDir.isPresent()){
+            File temp = new File(tmpDir.get());
+            if (!temp.exists()) {
+                temp.mkdirs();
+            }
+            properties.put("rythm.home.tmp", temp);
+            logger.info("rythm tmp dir set to {}", properties.get("rythm.home.tmp"));
+        }else{
+            logger.info("Didn't set rythm.home.tmp.");
+        }
+        
         properties.put("rythm.resource.autoScan", false);
 
         properties.put("rythm.codegen.source_code_enhancer",
