@@ -8,4 +8,5 @@ bin
 .metadata
 *.iml
 .idea
-
+ninja-rythm-demo/.buildpath
+ninja-rythm-demo/src/main/java/Main.java
