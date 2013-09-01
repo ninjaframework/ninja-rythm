@@ -842,14 +842,11 @@ h2. <a name="implicit_object">Implicit objects available in a template</a>
 
 Ninja Rythm plugin automatically declare and set the following implicit objects so that you don't need to do @import@ / @declare@ them before using:
 
-|| Variable || Description || Example usage in template ||
-| @lang@ | Language | <code><li>Implicit language is: @lang</li> </code>|
-| @session@ | Session. From controller <code>context.getSessionCookie().put("username", "kevin");</code> | <code><b>@session.get("username")</b></code> |
-| @contextPath@ | Get the context path on which the application is running, ie. return the context-path with a leading "/" or "" if running on root | <code><b>@contextPath</b></code> |
+| Variable | Description & possible usage in Controller | Example usage in template |
+| @lang@ | Language | <code><p>Implicit language is: @lang</p> </code>|
+| @session@ | <code>context.getSessionCookie().put("username", "kevin");</code> | <code><p>@session.get("username")</p></code> |
+| @contextPath@ | Get the context path on which the application is running, ie. return the context-path with a leading "/" or "" if running on root | <code><p>@contextPath</p></code> |
 | @flashSuccess@ | <code>context.getFlashCookie().success("success")</code> | <code><p>@flash.get("success")</p></code> |
-| @flashError@ | <code>context.getFlashCookie().error("failed")</code> |  <code><p>@flash.get("error")</p><code>  |
-| @custom_flash@ | <code>context.getFlashCookie().put("custom_flash", "some custome msg");</code> |<code> @flash.get("custom_flash")</code>|
+| @flashError@ | <code>context.getFlashCookie().error("failed")</code> |  <code><p>@flash.get("error")</p></code>  |
+| @custom_flash@ | <code>context.getFlashCookie().put("custom_flash", "some custome msg");</code> |<code> <p>@flash.get("custom_flash")</p></code>|
 
-h2. <a name="implicit_import">Implicit import statements</a>
-
-h2. <a name="resource">See also</a>
