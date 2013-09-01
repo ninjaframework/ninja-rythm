@@ -27,5 +27,16 @@ Setup
     
 3) All set. Start writing template in 'views' folder of your application.
 
+
+4) Or check out <code>ninja-rythm-demo</code>. Run any one of the below commands under demo:
+
+    mvn jetty:run
+    OR 
+    mvn tomcat7:run
+
+
+Modify code/template -- Save -- Refresh browser. Enjoy!
+
+
 ***TODO - Usage in detail.***
 
