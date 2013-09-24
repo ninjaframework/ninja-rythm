@@ -22,8 +22,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jettyVersion>9.0.4.v20130625</jettyVersion>
-        <ninjaVersion>1.6.1-SNAPSHOT</ninjaVersion>
+        <jettyVersion>9.0.5.v20130815</jettyVersion>
+        <ninjaVersion>2.0.0</ninjaVersion>
         <ninjaRythmVersion>0.0.1-SNAPSHOT</ninjaRythmVersion>
     </properties>
 
@@ -129,7 +129,7 @@
 
         <dependency>
             <groupId>org.ninjaframework</groupId>
-            <artifactId>ninja-core-test</artifactId>
+            <artifactId>ninja-test-utilities</artifactId>
             <version>${ninjaVersion}</version>
             <scope>test</scope>
         </dependency>
