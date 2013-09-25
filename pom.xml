@@ -37,7 +37,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <siteProjectVersion>${project.version}</siteProjectVersion>
-        <ninja.version>1.6.1-SNAPSHOT</ninja.version> <!-- TODO remove snapshot -->
+        <ninja.version>2.0.0</ninja.version>
     </properties>
     <build>
         <pluginManagement>
