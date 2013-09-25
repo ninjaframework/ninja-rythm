@@ -2,7 +2,6 @@ package ninja.rythm.util;
 
 import ninja.Result;
 import ninja.Route;
-import ninja.utils.NinjaConstant;
 
 /**
  * Helper methods for Rythm engines
