@@ -422,7 +422,7 @@ h2. <a name="custom_tag">Create tags</a>
 
 You can easily create specific tags for your application. **Every template can be invoked as a tag**. The template’s file path start from template root (views, in Ninja context) mapped into tag name by striping off the file extension and converting all path separator @/@ into the dot @.@.
 
-For example suppose you have a template with the following content located at @app/rythm/util/hello.html@:
+For example suppose you have a template with the following content located at @app/views/util/hello.html@:
 
 bc. Hello from tag!
 
@@ -493,7 +493,7 @@ bc. //@ template code
 @user.list()
 ...
 
-When you have normal html page request, Rythm will try to look for @app/rythm/user/list.html@ file when doing the tag invocation. If the request is for a json data, Rythm will pickup @app/rythm/user/list.json@ first. If the preferred tag file cannot be found, then Rythm look for tag file for other formats in the following sequence:
+When you have normal html page request, Rythm will try to look for @app/views/user/list.html@ file when doing the tag invocation. If the request is for a json data, Rythm will pickup @app/views/user/list.json@ first. If the preferred tag file cannot be found, then Rythm look for tag file for other formats in the following sequence:
 
 # *.html
 # *.json
@@ -658,7 +658,7 @@ h3. <a name="reuse_inline_tag">Reuse inline tag across multiple views</a>
 
 A good feature provided with <code>@include</code> is that you can import the "inline tag":#inline_tag definition from the template been included into the current template:
 
-Suppose you have created a template named @app/rythm/util.html@ with a set of inline tags:
+Suppose you have created a template named @app/views/util.html@ with a set of inline tags:
 
 bc. @tag hi (String who) {
     Hi @who
@@ -764,9 +764,9 @@ bc. <h1>Main template</h1>
 
 h3. <a name="extended_template_path">Extended template lookup</a>
 
-Before Rythm v1.0 you needed to pass the full path to extended template file starting from @app/rythm@ folder: <code>@extends("main.html")</code>
+Before Rythm v1.0 you needed to pass the full path to extended template file starting from @app/views@ folder: <code>@extends("main.html")</code>
 
-Since v1.0 you have a clean and simple way to declare extended template, i.e. the way to declare a tag invocation. For example, if you want to extend @app/rythm/layout/foo/bar.html@, you can declare the extend statement as <code>@extends("layout.foo.bar")</code>.
+Since v1.0 you have a clean and simple way to declare extended template, i.e. the way to declare a tag invocation. For example, if you want to extend @app/views/layout/foo/bar.html@, you can declare the extend statement as <code>@extends("layout.foo.bar")</code>.
 
 The "relative path and include path declaration":user_guide#call_tag_relative_path feature are also available:
 
