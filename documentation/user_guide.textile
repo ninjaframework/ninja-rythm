@@ -850,3 +850,44 @@ Ninja Rythm plugin automatically declare and set the following implicit objects 
 | @flashError@ | <code>context.getFlashCookie().error("failed")</code> |  <code><p>@flash.get("error")</p></code>  |
 | @custom_flash@ | <code>context.getFlashCookie().put("custom_flash", "some custome msg");</code> |<code> <p>@flash.get("custom_flash")</p></code>|
 
+h2. <a name="argument_passing">Passing arguments from Ninja Controller to Template</a>
+
+h4. Passing objects:
+
+  Passing object to template can be done via .render() method. Make sure the object name matches the type.
+  For eg: below scenario, name of object must be 'customer' since the type is 'Customer'.
+  (Rythm derives the render arguments by name of the type internally).
+
+  In template:
+bc. @import org.example.Customer;
+@args Customer customer;
+<p>Hello : @customer.getName()</p>
+
+  In Controller:
+bc. Customer customer = new Customer();
+customer.setName("Bob");
+return Results.html().template("/customer_info.html").render(customer);
+
+h4. Passing collection of objects:
+  
+  In template:
+bc. @import org.example.Customer;
+@args java.util.List<Customer> customers;
+<p>Hello : @customers.get(0).getName()</p>
+
+
+  In Controller:
+bc. Customer customer1 = new Customer();
+Customer customer2 = new Customer();
+customer1.setName("Bob");
+customer2.setName("Jam");
+List<Customer> customerLst = new ArrayList<>();
+customerLst.add(customer1);
+customerLst.add(customer2);
+Map<String, Object> args = new HashMap<>();
+args.put("customers", customerLst);
+return Results.html().template("/customer_info.html").render(args);
+
+<a name="default_section"></a>Just make sure to match the args map key name ('customers' in the above eg) to the collection name in the template.
+Its a limitation not be able to pass the list as it is i.e <code>.render(customerLst); </code> ,it is on the roadmap.
+  
