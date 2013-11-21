@@ -742,11 +742,13 @@ Template inheritance is a good way to implement template layout management.
 
 bc. @// this type of extended template declaration is deprecated: @extends("main.html")
 @extends("main")
+@set(pageTitle: "Home page title") @//Example of passing argument to base page, Sets the title in main page.
 <h1>Some code</h1>
 
 The @main@ template is the layout template, you can use the @doLayout@ tag to include the content of the declaring template:
 
 bc. <h1>Main template</h1>
+<title>@get("pageTitle")</title>
 <div id="content">
     @doLayout()
 </div>
@@ -793,7 +795,7 @@ bc. <!DOCTYPE html>
 </head>
 <body>
   <div id="header">
-    <h1>@get("title')</h1>
+    <h1>@get("title")</h1>
   </div>
 　
   <div id="sidebar">
