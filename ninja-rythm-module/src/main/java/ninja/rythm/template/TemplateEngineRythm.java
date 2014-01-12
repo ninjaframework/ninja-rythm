@@ -54,7 +54,6 @@ import com.google.inject.Singleton;
  * 
  */
 
-@Singleton
 public class TemplateEngineRythm implements TemplateEngine {
 
     private final String FILE_SUFFIX = ".html";

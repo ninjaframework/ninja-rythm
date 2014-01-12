@@ -16,6 +16,7 @@
 
 package ninja.rythm;
 
+import com.google.inject.Scopes;
 import ninja.rythm.template.TemplateEngineRythm;
 import ninja.template.TemplateEngine;
 
@@ -33,7 +34,7 @@ import com.google.inject.AbstractModule;
 public class NinjaRythmModule extends AbstractModule {
     @Override
     protected void configure() {
-        bind(RythmEngine.class).toProvider(RythmEngineProvider.class);
-        bind(TemplateEngine.class).to(TemplateEngineRythm.class);
+        bind(RythmEngine.class).toProvider(RythmEngineProvider.class).in( Scopes.SINGLETON );
+        bind(TemplateEngine.class).to(TemplateEngineRythm.class).in( Scopes.SINGLETON );
     }
 }

@@ -113,7 +113,7 @@ public class TemplateRythmConfiguration {
         }else if(tmpDir.isPresent()){
             File temp = new File(tmpDir.get());
             if (!temp.exists()) {
-                temp.mkdirs();
+                temp.mkdirs();//TODO check return value from mkdirs
             }
             properties.put("rythm.home.tmp", temp);
             logger.info("rythm tmp dir set to {}", properties.get("rythm.home.tmp"));
