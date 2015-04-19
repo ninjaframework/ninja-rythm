@@ -18,11 +18,9 @@ package controllers;
 
 import static org.junit.Assert.assertTrue;
 
-import java.net.URLEncoder;
 import java.util.Map;
 
 import ninja.NinjaTest;
-import ninja.utils.NinjaTestBrowser;
 
 import org.junit.Test;
 
@@ -42,24 +40,11 @@ public class I18nControllerTest extends NinjaTest {
         String result = ninjaTestBrowser.makeRequest(getServerAddress()
                 + "/i18n", headers);
 
-        assertTrue(result
-                .contains(TEXT_EN));
+        assertTrue(result.contains(TEXT_EN));
 
     }
 
-    @Test
-    public void testThatI18nWorksDe() {
-
-        Map<String, String> headers = Maps.newHashMap();
-        headers.put("Accept-Language", "de-DE");
-
-        String result = ninjaTestBrowser.makeRequest(getServerAddress()
-                + "/i18n", headers);
-
-        assertTrue(result
-                .contains(TEXT_DE));
-
-    }
+    
     
     @Test
     public void testThatImplicitParameterWorks() {
@@ -110,17 +95,6 @@ public class I18nControllerTest extends NinjaTest {
 
         assertTrue(result
                 .contains(TEXT_EN));
-        
-        
-        // 4) normal operation
-        headers = Maps.newHashMap();
-        headers.put("Accept-Language", "de-DE");
-
-        result = ninjaTestBrowser.makeRequest(getServerAddress()
-                + "/i18n/de", headers);
-
-        assertTrue(result
-                .contains(TEXT_DE));
 
     }
 

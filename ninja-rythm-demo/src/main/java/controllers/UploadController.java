@@ -1,19 +1,18 @@
 /**
  * Copyright (C) 2013 the original author or authors.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
-
 package controllers;
 
 import java.io.InputStream;
@@ -34,6 +33,8 @@ import org.slf4j.Logger;
 import com.google.common.io.ByteStreams;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.io.IOException;
+import org.apache.commons.fileupload.FileUploadException;
 
 @Singleton
 public class UploadController {
@@ -41,7 +42,7 @@ public class UploadController {
     /**
      * This is the system wide logger. You can still use any config you like. Or
      * create your own custom logger.
-     * 
+     *
      * But often this is just a simple solution:
      */
     @Inject
@@ -63,10 +64,10 @@ public class UploadController {
     }
 
     /**
-     * 
+     *
      * This upload method expects a file and simply displays the file in the
      * multipart upload again to the user (in the correct mime encoding).
-     * 
+     *
      * @param context
      * @return
      * @throws Exception
@@ -78,51 +79,54 @@ public class UploadController {
         Renderable renderable = new Renderable() {
 
             @Override
-            public void render(Context context, Result result) throws Exception {
+            public void render(Context context, Result result) {
 
-                // make sure the context really is a multipart context...
-                if (context.isMultipart()) {
+                try {
+// make sure the context really is a multipart context...
+                    if (context.isMultipart()) {
 
-                    // This is the iterator we can use to iterate over the
-                    // contents
-                    // of the request.
-                    FileItemIterator fileItemIterator = context
-                            .getFileItemIterator();
+                        // This is the iterator we can use to iterate over the
+                        // contents
+                        // of the request.
+                        FileItemIterator fileItemIterator = context
+                                .getFileItemIterator();
 
-                    while (fileItemIterator.hasNext()) {
+                        while (fileItemIterator.hasNext()) {
 
-                        FileItemStream item = fileItemIterator.next();
+                            FileItemStream item = fileItemIterator.next();
 
-                        String name = item.getFieldName();
-                        InputStream stream = item.openStream();
+                            String name = item.getFieldName();
+                            InputStream stream = item.openStream();
 
-                        String contentType = item.getContentType();
+                            String contentType = item.getContentType();
 
-                        if (contentType != null) {
-                            result.contentType(contentType);
-                        } else {
-                            contentType = mimeTypes.getMimeType(name);
+                            if (contentType != null) {
+                                result.contentType(contentType);
+                            } else {
+                                contentType = mimeTypes.getMimeType(name);
+                            }
+
+                            ResponseStreams responseStreams = context
+                                    .finalizeHeaders(result);
+
+                            if (item.isFormField()) {
+                                System.out.println("Form field " + name
+                                        + " with value " + Streams.asString(stream)
+                                        + " detected.");
+                            } else {
+                                System.out.println("File field " + name
+                                        + " with file name " + item.getName()
+                                        + " detected.");
+                                // Process the input stream
+
+                                ByteStreams.copy(stream,
+                                        responseStreams.getOutputStream());
+
+                            }
                         }
 
-                        ResponseStreams responseStreams = context
-                                .finalizeHeaders(result);
-
-                        if (item.isFormField()) {
-                            System.out.println("Form field " + name
-                                    + " with value " + Streams.asString(stream)
-                                    + " detected.");
-                        } else {
-                            System.out.println("File field " + name
-                                    + " with file name " + item.getName()
-                                    + " detected.");
-                            // Process the input stream
-
-                            ByteStreams.copy(stream,
-                                    responseStreams.getOutputStream());
-
-                        }
                     }
-
+                } catch (FileUploadException | IOException fileUploadException) {
                 }
 
             }
