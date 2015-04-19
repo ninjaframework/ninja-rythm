@@ -46,7 +46,7 @@ public class AssetsControllerTest extends NinjaTest {
 		//this is a mimetype nobody knows of...
 		//but it is listetd in the ninja mimetypes... therefore it will be found:
 		//default charset is always utf-8 by convention.
-		assertEquals("application/dxf;charset=UTF-8", httpResponse.getHeaders("Content-Type")[0].getValue());
+		assertEquals("application/dxf; charset=UTF-8", httpResponse.getHeaders("Content-Type")[0].getValue());
 
 	}
 	

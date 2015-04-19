@@ -32,8 +32,8 @@ import ninja.i18n.Lang;
 import ninja.i18n.Messages;
 import ninja.rythm.exception.NinjaExceptionHandler;
 import ninja.rythm.util.RythmHelper;
-import ninja.session.FlashCookie;
-import ninja.session.SessionCookie;
+import ninja.session.FlashScope;
+import ninja.session.Session;
 import ninja.template.TemplateEngineManager;
 import ninja.utils.NinjaProperties;
 import ninja.utils.ResponseStreams;
@@ -93,10 +93,10 @@ public class TemplateEngineRythmTest {
     RythmEngine engine;
 
     @Mock
-    SessionCookie cookie;
+    Session cookie;
 
     @Mock
-    FlashCookie flashCookie;
+    FlashScope flashCookie;
 
     @Test
     public void testInvoke() throws Exception {
