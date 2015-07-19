@@ -67,7 +67,7 @@
                                 <include>**/*</include>
                             </includes>
                             <excludes>
-                                <exclude>**/*.ftl.html</exclude>
+                                <exclude>**/*.html</exclude>
                                 <exclude>assets/**</exclude>
                             </excludes>
                         </scanTargetPattern>
@@ -87,6 +87,14 @@
                 <groupId>org.ninjaframework</groupId>
                 <artifactId>ninja-maven-plugin</artifactId>
                 <version>${ninja.version}</version>
+			    <configuration>
+			        <excludes>
+			            <exclude>(.*)\\views\\(.*)\.html</exclude>
+			            <exclude>(.*)/views/(.*)\.html</exclude>
+			            <exclude>(.*)\\assets\\(.*)</exclude>
+			            <exclude>(.*)/assets/(.*)</exclude>
+			        </excludes>
+			    </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
