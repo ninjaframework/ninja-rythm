@@ -47,23 +47,24 @@ Hot-deploy
 ----------
 
 To keep hot-deploy feature of updated templates, you must make some changes to your pom.xml:
-
 - change the jetty maven plugin configuration to exclude **/*.html instead of only **/*.ftl.html
-- change the ninja maven plugin configuration:
+- change the ninja maven plugin configuration
 
-	<plugin>
-		<groupId>org.ninjaframework</groupId>
-		<artifactId>ninja-maven-plugin</artifactId>
-		<version>${ninja.version}</version>
-		<configuration>
-			<excludes>
-				<exclude>(.*)\\views\\(.*)\.html</exclude>
-				<exclude>(.*)/views/(.*)\.html</exclude>
-				<exclude>(.*)\\assets\\(.*)</exclude>
-				<exclude>(.*)/assets/(.*)</exclude>
-			</excludes>
-		</configuration>
-	</plugin>
+Example:
+
+    <plugin>
+        <groupId>org.ninjaframework</groupId>
+        <artifactId>ninja-maven-plugin</artifactId>
+        <version>${ninja.version}</version>
+        <configuration>
+            <excludes>
+                <exclude>(.*)\\views\\(.*)\.html</exclude>
+                <exclude>(.*)/views/(.*)\.html</exclude>
+                <exclude>(.*)\\assets\\(.*)</exclude>
+                <exclude>(.*)/assets/(.*)</exclude>
+            </excludes>
+        </configuration>
+    </plugin>
 
 Modify template -- Save -- Refresh browser and the application does not restart any more. Enjoy!
 
