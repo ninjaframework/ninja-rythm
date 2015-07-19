@@ -18,7 +18,7 @@
     <parent>
         <groupId>org.ninjaframework</groupId>
         <artifactId>ninja-rythm</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.5-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -35,27 +35,7 @@
         <dependency>
             <groupId>org.rythmengine</groupId>
             <artifactId>rythm-engine</artifactId>
-            <version>1.0-b9</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>14.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.inject</groupId>
-            <artifactId>guice</artifactId>
-            <version>3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.0.13</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
-            <version>1.7.5</version>
+            <version>1.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
@@ -65,9 +45,7 @@
         </dependency>
         <dependency>
             <groupId>junit</groupId>
-            <!-- junit-dep has all dependencies declared, rather than bundled 
-                (bundled causes massive classpath headaches) -->
-            <artifactId>junit-dep</artifactId>
+            <artifactId>junit</artifactId>
             <version>4.11</version>
             <scope>test</scope>
         </dependency>

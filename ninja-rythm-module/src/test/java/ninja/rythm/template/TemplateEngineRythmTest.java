@@ -30,10 +30,10 @@ import ninja.Result;
 import ninja.Route;
 import ninja.i18n.Lang;
 import ninja.i18n.Messages;
-import ninja.rythm.exception.NinjaExceptionHandler;
-import ninja.rythm.util.RythmHelper;
-import ninja.session.FlashCookie;
-import ninja.session.SessionCookie;
+import ninja.rythm.TemplateEngineRythm;
+import ninja.session.FlashScope;
+import ninja.session.Session;
+import ninja.template.TemplateEngineHelper;
 import ninja.template.TemplateEngineManager;
 import ninja.utils.NinjaProperties;
 import ninja.utils.ResponseStreams;
@@ -54,7 +54,7 @@ import com.google.common.base.Optional;
 public class TemplateEngineRythmTest {
 
     @Mock
-    Context contextRenerable;
+    Context contextRenderable;
 
     @Mock
     ResponseStreams responseStreams;
@@ -75,13 +75,10 @@ public class TemplateEngineRythmTest {
     Logger ninjaLogger;
 
     @Mock
-    NinjaExceptionHandler exceptionHandler;
-
-    @Mock
     TemplateEngineManager templateEngineManager;
 
     @Mock
-    RythmHelper rythmHelper;
+    TemplateEngineHelper rythmHelper;
 
     @Mock
     Result result;
@@ -93,10 +90,10 @@ public class TemplateEngineRythmTest {
     RythmEngine engine;
 
     @Mock
-    SessionCookie cookie;
+    Session cookie;
 
     @Mock
-    FlashCookie flashCookie;
+    FlashScope flash;
 
     @Test
     public void testInvoke() throws Exception {
@@ -105,10 +102,10 @@ public class TemplateEngineRythmTest {
         when(ninjaProperties.getAllCurrentNinjaProperties()).thenReturn(p);
 
         TemplateEngineRythm rythm = new TemplateEngineRythm(messages, lang,
-                ninjaLogger, exceptionHandler, rythmHelper,
-                templateEngineManager, ninjaProperties, engine);
+                ninjaLogger, rythmHelper,
+                ninjaProperties, engine);
 
-        when(contextRenerable.finalizeHeaders(Mockito.eq(result))).thenReturn(
+        when(contextRenderable.finalizeHeaders(Mockito.eq(result))).thenReturn(
                 responseStreams);
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -119,21 +116,21 @@ public class TemplateEngineRythmTest {
                 new PrintWriter(byteArrayOutputStream));
 
         when(cookie.isEmpty()).thenReturn(true);
-        when(contextRenerable.getSessionCookie()).thenReturn(cookie);
+        when(contextRenderable.getSession()).thenReturn(cookie);
 
-        when(flashCookie.getCurrentFlashCookieData()).thenReturn(
+        when(flash.getCurrentFlashCookieData()).thenReturn(
                 new HashMap<String, String>());
-        when(contextRenerable.getFlashCookie()).thenReturn(flashCookie);
-        when(contextRenerable.getRoute()).thenReturn(route);
+        when(contextRenderable.getFlashScope()).thenReturn(flash);
+        when(contextRenderable.getRoute()).thenReturn(route);
 
         when(
-                rythmHelper.getRythmTemplateForResult(
+                rythmHelper.getTemplateForResult(
                         Mockito.eq(route), Mockito.eq(result),
-                        Mockito.eq(".html"))).thenReturn("TemplateName");
+                        Mockito.eq(".rtm.html"))).thenReturn("TemplateName");
 
         Optional<String> language = Optional.absent();
         when(
-                lang.getLanguage(Mockito.eq(contextRenerable),
+                lang.getLanguage(Mockito.eq(contextRenderable),
                         Mockito.eq(Optional.of(result)))).thenReturn(language);
 
         when(engine.getTemplate(Mockito.eq("TemplateName"), anyObject()))
@@ -145,7 +142,7 @@ public class TemplateEngineRythmTest {
                 template);
         when(template.render()).thenReturn("Hellow world from Rythm");
 
-        rythm.invoke(contextRenerable, result);
+        rythm.invoke(contextRenderable, result);
 
         assertEquals("Hellow world from Rythm" + SystemUtils.LINE_SEPARATOR,
                 byteArrayOutputStream.toString());
