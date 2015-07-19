@@ -71,9 +71,9 @@ Usage
 -----
 
 In addition to rythm engine templating features :
-- allow to add singleton objects to all templates, using rythm.engine.<name>=<class_name>
+- allow to add singleton objects to all templates, using rythm.engine.[name]=[class_name]
 	The class name must extend RythmRenderUtility, see RythmUtils in demo
-- allow to add imports to all templates, using rythm.imports=<import>,<import>,...
+- allow to add imports to all templates, using rythm.imports=[import],[import],...
 	See application.conf in demo
 
 In dev mode, java and rythm temporary files are written in target/rythm folder.
