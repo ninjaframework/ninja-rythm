@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 the original author or authors.
+ * Copyright (C) 2012 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,29 +17,26 @@
 package conf;
 
 import ninja.rythm.NinjaRythmModule;
+import ninja.rythm.NinjaTemplateSelectorModule;
+import ninja.rythm.TemplateEngineRythm;
+import ninja.template.TemplateEngineFreemarker;
+import ninja.utils.NinjaConstant;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Singleton;
 
-import etc.GreetingService;
-import etc.GreetingServiceImpl;
-
+@Singleton
 public class Module extends AbstractModule {
+    
 
-    public Module() {
-        super();
-    }
-
-    @Override
     protected void configure() {
-        // /////////////////////////////////////////////////////////////////////
-        // Some guice bindings
-        // /////////////////////////////////////////////////////////////////////
-        // some additional bindings for the application:
-        bind(GreetingService.class).to(GreetingServiceImpl.class);
-        // Bind the UDP ping controller so it starts up on server start
-        // bind(UdpPingController.class);
         
+        // Install Rythm Engine Support, side-by-side with freemarker
         install(new NinjaRythmModule());
+        install(new NinjaTemplateSelectorModule(
+                getProvider(TemplateEngineRythm.class),
+                getProvider(TemplateEngineFreemarker.class)
+                ));
         
     }
 

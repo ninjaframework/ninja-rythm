@@ -21,6 +21,7 @@ import static org.mockito.Mockito.when;
 import java.util.Locale;
 
 import ninja.i18n.Messages;
+import ninja.rythm.TemplateEngineRythmI18nMessageResolver;
 
 import org.junit.Assert;
 import org.junit.Test;

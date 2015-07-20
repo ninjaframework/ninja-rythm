@@ -16,11 +16,12 @@
 
 package ninja.rythm;
 
+import java.util.Properties;
+
 import ninja.i18n.Messages;
-import ninja.rythm.template.TemplateRythmConfiguration;
-import ninja.template.TemplateEngineManager;
 import ninja.utils.NinjaProperties;
 
+import org.rythmengine.Rythm;
 import org.rythmengine.RythmEngine;
 import org.slf4j.Logger;
 
@@ -37,23 +38,26 @@ public class RythmEngineProvider implements Provider<RythmEngine> {
     private final Messages messages;
     private final Logger logger;
     private final NinjaProperties ninjaProperties;
-    private final TemplateEngineManager templateEngineManager;
 
     @Inject
     public RythmEngineProvider(Messages messages,
                                Logger logger,
-                               TemplateEngineManager templateEngineManager,
                                NinjaProperties ninjaProperties) {
         this.messages = messages;
         this.logger = logger;
-        this.templateEngineManager = templateEngineManager;
         this.ninjaProperties = ninjaProperties;
+        
+        TemplateRythmConfiguration conf = new TemplateRythmConfiguration(messages, logger, ninjaProperties);
+        Properties properties = conf.getConfiguration();
+        RythmEngine engine = new RythmEngine(properties);
+        try {
+            Rythm.init(engine);
+        } catch (Exception e){
+        }
     }
 
     @Override
     public RythmEngine get() {
-        TemplateRythmConfiguration conf = new TemplateRythmConfiguration(messages, logger,
-                templateEngineManager, ninjaProperties);
-        return new RythmEngine(conf.getConfiguration());
+        return Rythm.engine();
     }
 }
